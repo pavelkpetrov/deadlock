@@ -1,11 +1,14 @@
 package com.softteco.blockingqueue;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.util.concurrent.BlockingQueue;
 
 // Producer
 // Crawl file system and put the filename in BlockingQueue.
+@Slf4j
 public class FileCrawlerProducer implements Runnable {
 
     private final BlockingQueue<File> fileQueue;
@@ -55,6 +58,7 @@ public class FileCrawlerProducer implements Runnable {
         File[] entries = root.listFiles(fileFilter);
         if (entries != null) {
             for (File entry : entries) {
+                log.info("crawl file {}", entry.getName());
                 if (entry.isDirectory()) {
                     crawl(entry);
                 } else if (!isIndexed(entry)) {

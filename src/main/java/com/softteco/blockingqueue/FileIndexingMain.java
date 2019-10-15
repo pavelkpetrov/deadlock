@@ -34,6 +34,7 @@ public class FileIndexingMain {
         };
 
         String indexingPath = FileUtils.loadProperties().getProperty("file.indexing.path");
+        indexingPath = FileUtils.getFilesPathCanonical(indexingPath);
 
         File root = new File(indexingPath);
 
