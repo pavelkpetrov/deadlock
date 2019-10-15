@@ -1,10 +1,10 @@
-package com.softteco;
+package com.softteco.deadlock;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.util.concurrent.TimeUnit;
 
-public class Main {
+public class DeadLockMonitorMain {
 
     public static void main(String[] args) {
 	// write your code here
