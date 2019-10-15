@@ -148,5 +148,42 @@ public class FileUtils {
         return new File(filePath).getCanonicalPath();
     }
 
+    public static File createTempDirectory()
+            throws IOException
+    {
+        final File temp;
+
+        temp = File.createTempFile("temp", Long.toString(System.nanoTime()));
+
+        if(!(temp.delete()))
+        {
+            throw new IOException("Could not delete temp file: " + temp.getAbsolutePath());
+        }
+
+        if(!(temp.mkdir()))
+        {
+            throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
+        }
+
+        return (temp);
+    }
+
+    public static File createFileForMonitor(String folderPath, byte[] data, String fileName) throws IOException {
+        File file = new File(folderPath + "/" + fileName);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        FileOutputStream fielOs = null;
+        try {
+            fielOs = new FileOutputStream(file);
+            fielOs.write(data);
+            fielOs.flush();
+        } finally {
+            if (fielOs != null) {
+                fielOs.close();
+            }
+        }
+        return file;
+    }
 
 }

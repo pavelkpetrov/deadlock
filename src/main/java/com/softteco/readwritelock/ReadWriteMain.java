@@ -19,11 +19,11 @@ public class ReadWriteMain {
         // write your code here
         dataChanged = false;
         try {
-            final File tempDir = createTempDirectory();
+            final File tempDir = FileUtils.createTempDirectory();
             final String fileName = "testFile.txt";
             final String testString = "test data 1";
             final String testString2 = "test data 2";
-            createFileForMonitor(tempDir.getAbsolutePath(), testString.getBytes("UTF-8"), fileName);
+            FileUtils.createFileForMonitor(tempDir.getAbsolutePath(), testString.getBytes("UTF-8"), fileName);
             monitor.init(tempDir.getAbsolutePath());
 
             monitor.addNewFolderDataEventListener((FilesChangeMonitor.NewFolderDataEventListener) newData -> dataChanged = true);
@@ -35,7 +35,7 @@ public class ReadWriteMain {
                 public void run() {
                     try {
                         Thread.sleep(100);
-                        createFileForMonitor(tempDir.getAbsolutePath(), testString2.getBytes("UTF-8"), fileName);
+                        FileUtils.createFileForMonitor(tempDir.getAbsolutePath(), testString2.getBytes("UTF-8"), fileName);
                     } catch (IOException e) {
                         log.error(e.getMessage(), e);
                     } catch (InterruptedException e) {
@@ -77,43 +77,6 @@ public class ReadWriteMain {
         }
     }
 
-    private  static File createTempDirectory()
-            throws IOException
-    {
-        final File temp;
-
-        temp = File.createTempFile("temp", Long.toString(System.nanoTime()));
-
-        if(!(temp.delete()))
-        {
-            throw new IOException("Could not delete temp file: " + temp.getAbsolutePath());
-        }
-
-        if(!(temp.mkdir()))
-        {
-            throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
-        }
-
-        return (temp);
-    }
-
-    private static File createFileForMonitor(String folderPath, byte[] data, String fileName) throws IOException {
-        File file = new File(folderPath + "/" + fileName);
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        FileOutputStream fielOs = null;
-        try {
-            fielOs = new FileOutputStream(file);
-            fielOs.write(data);
-            fielOs.flush();
-        } finally {
-            if (fielOs != null) {
-                fielOs.close();
-            }
-        }
-        return file;
-    }
 
 
 }
