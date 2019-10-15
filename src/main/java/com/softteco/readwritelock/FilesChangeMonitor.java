@@ -1,4 +1,4 @@
-package com.softteco.deadlock.readwritelock;
+package com.softteco.readwritelock;
 
 import java.io.IOException;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.softteco.deadlock.readwritelock;
+package com.softteco.readwritelock;
 
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
