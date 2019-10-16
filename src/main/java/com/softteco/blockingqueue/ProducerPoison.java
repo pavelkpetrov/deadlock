@@ -1,7 +1,10 @@
 package com.softteco.blockingqueue;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.BlockingQueue;
 
+@Slf4j
 public class ProducerPoison implements Runnable {
 
     private final BlockingQueue<Integer> queue;
@@ -18,6 +21,7 @@ public class ProducerPoison implements Runnable {
             while (true) {
                 try {
                     queue.put(POISON);
+                    log.info("[Producer] Put Poison Pill and will stop");
                     break;
                 } catch (InterruptedException e) {
                     //...
@@ -31,9 +35,9 @@ public class ProducerPoison implements Runnable {
 
         // Put 20 elements into Queue
         for (int i = 0; i < 20; i++) {
-            System.out.println("[Producer] Put : " + i);
+            log.info("[Producer] Put : " + i);
             queue.put(i);
-            System.out.println("[Producer] Queue remainingCapacity : " + queue.remainingCapacity());
+            log.info("[Producer] Queue remainingCapacity : " + queue.remainingCapacity());
             Thread.sleep(100);
         }
 

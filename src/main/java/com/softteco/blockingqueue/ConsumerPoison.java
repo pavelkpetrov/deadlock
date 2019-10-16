@@ -1,7 +1,10 @@
 package com.softteco.blockingqueue;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.BlockingQueue;
 
+@Slf4j
 public class ConsumerPoison implements Runnable {
 
     private final BlockingQueue<Integer> queue;
@@ -17,6 +20,7 @@ public class ConsumerPoison implements Runnable {
 
                 // if this is a poison pill, break, exit
                 if (take == POISON) {
+                    log.info("[Consumer] Take poison pill will try to stop thread execution");
                     break;
                 }
 
@@ -28,7 +32,7 @@ public class ConsumerPoison implements Runnable {
     }
 
     private void process(Integer take) throws InterruptedException {
-        System.out.println("[Consumer] Take : " + take);
+        log.info("[Consumer] Take : " + take);
         Thread.sleep(500);
     }
 

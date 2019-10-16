@@ -27,11 +27,11 @@ public class FileCrawlerProducer implements Runnable {
         } finally {
             while (true) {
                 try {
-                    System.out.println(Thread.currentThread().getName()
+                    log.info(Thread.currentThread().getName()
                             + " - FileCrawlerProducer is done, try poison all the consumers!");
                     // poison all threads
                     for (int i = 0; i < N_POISON_PILL_PER_PRODUCER; i++) {
-                        System.out.println(Thread.currentThread().getName() + " - puts poison pill!");
+                        log.info(Thread.currentThread().getName() + " - puts poison pill!");
                         fileQueue.put(POISON);
                     }
                     break;
@@ -62,8 +62,7 @@ public class FileCrawlerProducer implements Runnable {
                 if (entry.isDirectory()) {
                     crawl(entry);
                 } else if (!isIndexed(entry)) {
-                    System.out.println("[FileCrawlerProducer] - Found..."
-                            + entry.getAbsoluteFile());
+                    log.info("[FileCrawlerProducer] - Found..." + entry.getAbsoluteFile());
                     fileQueue.put(entry);
                 }
             }

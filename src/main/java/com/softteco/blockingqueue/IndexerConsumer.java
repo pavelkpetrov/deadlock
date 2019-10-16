@@ -1,9 +1,12 @@
 package com.softteco.blockingqueue;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.util.concurrent.BlockingQueue;
 
 // Consumer
+@Slf4j
 public class IndexerConsumer implements Runnable {
 
     private final BlockingQueue<File> fileQueue;
@@ -16,7 +19,7 @@ public class IndexerConsumer implements Runnable {
             while (true) {
                 File take = fileQueue.take();
                 if (take == POISON) {
-                    System.out.println(Thread.currentThread().getName() + " die");
+                    log.info(Thread.currentThread().getName() + " die");
                     break;
                 }
                 indexFile(take);
@@ -29,7 +32,7 @@ public class IndexerConsumer implements Runnable {
 
     public void indexFile(File file) {
         if (file.isFile()) {
-            System.out.println(Thread.currentThread().getName()
+            log.info(Thread.currentThread().getName()
                     + " [IndexerConsumer] - Indexing..." + file.getAbsoluteFile());
         }
 
